@@ -1,0 +1,15 @@
+{
+  "name": "bitwarden-passwords-merger",
+  "module": "src/index.ts",
+  "type": "module",
+  "scripts": {
+    "dev": "nodemon -e ts -x \"bun run . ./bitwarden_*.json ./output.json\"",
+    "build": "bun build . --compile --outfile=out/bitwarden-passwords-merger"
+  },
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  }
+}
