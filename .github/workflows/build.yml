@@ -2,8 +2,8 @@ name: Build and Publish Bun Executable
 
 on:
   push:
-    branches:
-      - main
+    tags:
+      - "v*"
 
 jobs:
   build:
