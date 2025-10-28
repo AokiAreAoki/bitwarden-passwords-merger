@@ -1,0 +1,42 @@
+name: Build and Publish Bun Executable
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          # The version of Bun to install. (e.g. "latest", "canary", "1.0.0", "1.0.x", <sha>)
+          # bun-version: # optional
+          # The version of Bun to install from file. (e.g. "package.json", ".bun-version", ".tool-versions")
+          # bun-version-file: # optional
+          # Override the URL to download Bun from. This skips version resolution and verifying AVX2 support.
+          # bun-download-url: # optional
+          # The URL of the package registry to use for installing Bun. Set the $BUN_AUTH_TOKEN environment variable to authenticate with the registry.
+          # registry-url: # optional
+          # The scope for authenticating with the package registry.
+          # scope: # optional
+          # Disable caching of bun executable.
+          no-cache: true # optional
+
+      - name: Install dependencies
+        run: bun install
+
+      - name: Build executable
+        run: bun build . --compile --outfile=out/bitwarden-passwords-merger
+
+      - name: Publish executable
+        uses: softprops/action-gh-release@v1
+        with:
+          files: out/bitwarden-passwords-merger
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
